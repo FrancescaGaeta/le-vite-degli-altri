@@ -181,7 +181,9 @@
                 <div class="card bg-white rounded-xl shadow-md overflow-hidden border-2 border-bordeaux flex flex-col justify-between" data-materia="letteratura">
                     <div>
                         <div class="h-56 bg-stone-900 relative">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Giacomo_Leopardi.jpg/440px-Giacomo_Leopardi.jpg" alt="Giacomo Leopardi" class="w-full h-full object-cover opacity-60">
+                            <img src="leo.png"
+                                alt="Giacomo Leopardi"
+                                class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent flex items-end p-4">
                                 <span class="bg-red-700 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Gioco Attivo</span>
                             </div>
@@ -292,12 +294,114 @@
     <!-- SEZIONE CREATORE AI "THE WHY + AI" -->
     <section id="ai-generator-section" class="py-14 bg-stone-900 text-white border-t border-stone-800">
         <div class="max-w-4xl mx-auto px-6 text-center">
-            <h2 class="serif-title text-2xl font-bold text-indigo-200 mb-2">THE WHY + AI: Progetta Nuovi Scenari</h2>
+            <h2 class="serif-title text-3xl font-bold text-indigo-200 mb-2">
+    CREA CON AI
+</h2>
+
+<p class="text-stone-300 text-sm max-w-3xl mx-auto">
+    L'intelligenza artificiale analizza fonti biografiche, storiche e culturali
+    sul personaggio scelto e genera automaticamente un'esperienza immersiva
+    nello stile di "Le Vite degli Altri".
+</p>
             <p class="text-stone-400 text-xs max-w-md mx-auto mb-6 leading-relaxed">Inserisci il nome di un protagonista letterario o storico: l'algoritmo strutturerà i bivi e i post-it d'analisi automaticamente.</p>
-            <div class="bg-stone-950 border border-stone-800 p-5 rounded-xl max-w-sm mx-auto text-left">
-                <input type="text" placeholder="Es. Giuseppe Garibaldi, Luigi XIV..." class="w-full bg-stone-900 text-white rounded px-3 py-2 mb-3 border border-stone-700 text-xs focus:outline-none focus:border-indigo-500">
-                <button onclick="alert('Esegui prima il Login Docente per sbloccare le generazioni AI')" class="w-full bg-indigo-700 hover:bg-indigo-600 text-white font-bold py-2 rounded text-xs uppercase tracking-wider transition">Genera All'Istante</button>
-            </div>
+            <div class="bg-stone-950 border border-stone-800 p-6 rounded-xl max-w-3xl mx-auto text-left shadow-xl">
+
+    <div class="mb-5">
+        <label class="block text-xs uppercase tracking-wider text-indigo-300 font-bold mb-2">
+            Personaggio o periodo storico
+        </label>
+
+        <input
+            type="text"
+            placeholder="Es. Alessandro Manzoni, Napoleone, Galileo Galilei..."
+            class="w-full bg-stone-900 text-white rounded px-4 py-3 border border-stone-700 focus:outline-none focus:border-indigo-500">
+    </div>
+
+    <div class="mb-5">
+        <label class="block text-xs uppercase tracking-wider text-indigo-300 font-bold mb-2">
+            Tematiche da affrontare
+        </label>
+
+        <textarea
+            rows="4"
+            placeholder="Es. rapporto con la famiglia, desiderio di libertà, contesto storico, amicizie, delusioni amorose..."
+            class="w-full bg-stone-900 text-white rounded px-4 py-3 border border-stone-700 focus:outline-none focus:border-indigo-500"></textarea>
+    </div>
+
+    <div class="mb-5">
+        <label class="block text-xs uppercase tracking-wider text-indigo-300 font-bold mb-2">
+            Elementi chiave obbligatori
+        </label>
+
+        <textarea
+            rows="4"
+            placeholder="Es. biblioteca paterna, Recanati, teoria del pessimismo storico..."
+            class="w-full bg-stone-900 text-white rounded px-4 py-3 border border-stone-700 focus:outline-none focus:border-indigo-500"></textarea>
+    </div>
+
+    <div class="mb-5">
+        <label class="block text-xs uppercase tracking-wider text-indigo-300 font-bold mb-2">
+            Fascia d'età
+        </label>
+
+        <select class="w-full bg-stone-900 text-white rounded px-4 py-3 border border-stone-700">
+            <option>Scuola primaria</option>
+            <option selected>Scuola secondaria di primo grado</option>
+            <option>Scuola secondaria di secondo grado</option>
+        </select>
+    </div>
+
+    <div class="mb-6">
+        <label class="block text-xs uppercase tracking-wider text-indigo-300 font-bold mb-2">
+            Tipo di esperienza
+        </label>
+
+        <div class="grid md:grid-cols-3 gap-3 text-xs">
+
+            <label class="bg-stone-900 border border-stone-700 rounded p-3 cursor-pointer">
+                <input type="radio" name="gameType" checked>
+                Autore Misterioso
+            </label>
+
+            <label class="bg-stone-900 border border-stone-700 rounded p-3 cursor-pointer">
+                <input type="radio" name="gameType">
+                Escape Room Narrativa
+            </label>
+
+            <label class="bg-stone-900 border border-stone-700 rounded p-3 cursor-pointer">
+                <input type="radio" name="gameType">
+                Indagine Storica
+            </label>
+
+        </div>
+    </div>
+
+    <div class="bg-indigo-950/30 border border-indigo-900 rounded-lg p-4 mb-5">
+        <h4 class="font-bold text-indigo-300 mb-2">
+            Cosa farà l'AI?
+        </h4>
+
+        <ul class="text-xs text-stone-300 space-y-1">
+            <li>✓ Recupera informazioni biografiche e storiche sul personaggio</li>
+            <li>✓ Individua conflitti e momenti decisivi della sua vita</li>
+            <li>✓ Costruisce i bivi narrativi</li>
+            <li>✓ Genera le carte "Imprevisto"</li>
+            <li>✓ Produce i contenuti per la LIM</li>
+            <li>✓ Adatta il linguaggio all'età degli studenti</li>
+        </ul>
+    </div>
+
+    <button
+        onclick="alert('Generazione AI simulata')"
+        class="w-full bg-indigo-700 hover:bg-indigo-600 text-white font-bold py-3 rounded text-xs uppercase tracking-widest transition">
+
+        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+
+        Genera Esperienza Didattica
+
+    </button>
+
+</div>
         </div>
     </section>
 
