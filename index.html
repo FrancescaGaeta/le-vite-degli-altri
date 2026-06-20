@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Vite degli Altri - Didattica Immersiva & AI</title>
-    <!-- Tailwind CSS per layout reattivo ed elegante -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font eleganti per un aspetto culturale e istituzionale -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome per le icone didattiche -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -19,7 +16,6 @@
             --bordeaux-light: #7a2831;
             --gold: #d4af37;
             --gold-hover: #f3e5ab;
-            --parchment: #fcfaf2;
         }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -30,38 +26,77 @@
         }
         .bg-bordeaux { background-color: var(--bordeaux); }
         .text-bordeaux { color: var(--bordeaux); }
-        .border-bordeaux { border-color: var(--bordeaux); }
         .bg-gold { background-color: var(--gold); }
         .text-gold { color: var(--gold); }
-        .border-gold { border-color: var(--gold); }
         
-        /* Animazioni di caricamento stile AI */
+        .ai-pulse { animation: pulse-gold 2s infinite ease-in-out; }
         @keyframes pulse-gold {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: .7; transform: scale(1.03); }
         }
-        .ai-pulse { animation: pulse-gold 2s infinite ease-in-out; }
-
-        /* Stili speciali per la Stanza Interattiva di Leopardi */
-        .stanza-container {
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200') center/cover;
-            position: relative;
+        /* Stile Post-It Didattici */
+        .post-it {
+            background: #fef08a;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.15);
+            transform: rotate(-1deg);
         }
-        .oggetto-interattivo {
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px dashed rgba(212, 175, 55, 0.4);
-        }
-        .oggetto-interattivo:hover {
-            border-color: var(--gold);
-            background-color: rgba(212, 175, 55, 0.15);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        .post-it:nth-child(even) {
+            transform: rotate(1.5deg);
+            background: #fde047;
         }
     </style>
 </head>
-<body class="flex flex-col min-height-screen text-slate-800">
+<body class="flex flex-col min-h-screen text-slate-800">
 
-    <!-- HEADER / HERO -->
+    <nav class="bg-stone-900 text-white px-6 py-4 border-b border-stone-800 flex justify-between items-center shadow-md">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-graduation-cap text-[#e5c158] text-xl"></i>
+            <span class="serif-title font-bold text-sm md:text-base tracking-wider text-[#e5c158]">Le Vite degli Altri</span>
+        </div>
+        
+        <div id="nav-auth-container">
+            <div id="auth-logged-out" class="flex items-center gap-4">
+                <button onclick="openLoginModal()" class="text-xs bg-transparent border border-slate-400 hover:border-white px-3 py-1.5 rounded transition">
+                    <i class="fa-solid fa-right-to-bracket mr-1"></i> Login Docente
+                </button>
+            </div>
+            <div id="auth-logged-in" class="hidden flex items-center gap-3">
+                <span class="text-xs text-slate-300">Benvenuto, <strong id="nav-teacher-name" class="text-amber-400">Prof. Rossi</strong></span>
+                <button onclick="toggleProfileDashboard()" class="text-xs bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded font-semibold transition">
+                    <i class="fa-solid fa-user-gear mr-1"></i> Area Personale
+                </button>
+                <button onclick="logoutTeacher()" class="text-xs text-slate-400 hover:text-red-400 transition">
+                    <i class="fa-solid fa-power-off"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="profile-dashboard" class="hidden bg-stone-950 text-white border-b border-stone-800 p-6 transition-all">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+            <div class="bg-stone-900 p-4 rounded-xl border border-stone-800">
+                <h4 class="text-amber-400 font-bold text-xs uppercase tracking-wider mb-2"><i class="fa-solid fa-id-card mr-1"></i> Dati Profilo</h4>
+                <p class="text-sm font-semibold" id="dash-prof-name">Prof. Mario Rossi</p>
+                <p class="text-xs text-slate-400" id="dash-prof-school">Istituto Superiore "G. Leopardi"</p>
+                <p class="text-xs text-slate-500 mt-1" id="dash-prof-email">mario.rossi@scuola.it</p>
+            </div>
+            <div class="bg-stone-900 p-4 rounded-xl border border-stone-800">
+                <h4 class="text-amber-400 font-bold text-xs uppercase tracking-wider mb-2"><i class="fa-solid fa-chalkboard-user mr-1"></i> Classi Attive</h4>
+                <div class="flex flex-wrap gap-2 mt-1">
+                    <span class="bg-stone-800 text-xs px-2 py-1 rounded border border-stone-700 text-slate-300">3° A (Liceo Scientifico)</span>
+                    <span class="bg-stone-800 text-xs px-2 py-1 rounded border border-stone-700 text-slate-300">5° B (Liceo Classico)</span>
+                </div>
+            </div>
+            <div class="bg-stone-900 p-4 rounded-xl border border-stone-800 flex flex-col justify-between">
+                <div>
+                    <h4 class="text-amber-400 font-bold text-xs uppercase tracking-wider mb-1"><i class="fa-solid fa-floppy-disk mr-1"></i> Salvataggi</h4>
+                    <p class="text-xs text-slate-400">I moduli generati tramite l'AI "The Why + AI" verranno sincronizzati qui.</p>
+                </div>
+                <button onclick="toggleProfileDashboard()" class="text-xs text-right text-slate-400 hover:text-white underline mt-2">Chiudi Pannello</button>
+            </div>
+        </div>
+    </div>
+
     <header class="bg-bordeaux text-white py-12 px-6 border-b-4 border-[#d4af37] shadow-xl relative overflow-hidden">
         <div class="absolute inset-0 opacity-10 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1000');"></div>
         <div class="max-w-6xl mx-auto text-center relative z-10">
@@ -72,7 +107,6 @@
         </div>
     </header>
 
-    <!-- INTRODUZIONE E STRADA DI SCELTA (ANTECEDENTE) -->
     <section class="max-w-6xl mx-auto px-6 py-12">
         <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12 border border-slate-100 text-center mb-16">
             <h2 class="serif-title text-3xl font-bold text-bordeaux mb-6">Unisciti all'Esperienza Didattica Immersiva</h2>
@@ -80,34 +114,27 @@
                 I nostri giochi permettono agli studenti di vestire i panni di grandi menti storiche e letterarie, affrontando bivi etici, dialoghi interattivi e sfide culturali proiettabili direttamente sulla <strong>LIM</strong>. Da dove vuoi iniziare oggi?
             </p>
 
-            <!-- PULSANTI DI SCELTA STRADA -->
             <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Strada A: Catalogo -->
                 <button onclick="scrollToSection('catalogo-section')" class="group flex flex-col items-center justify-between p-6 bg-amber-50 hover:bg-amber-100/70 border-2 border-bordeaux/20 hover:border-bordeaux rounded-xl text-left transition-all duration-300 shadow-sm hover:shadow-md">
                     <div class="text-center w-full">
                         <div class="w-16 h-16 bg-bordeaux text-white rounded-full flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-book-open"></i>
                         </div>
                         <h3 class="serif-title text-xl font-bold text-bordeaux mb-2 text-center">Esplora Modelli Pronti</h3>
-                        <p class="text-slate-600 text-sm text-center mb-4">
-                            Usa i moduli pre-costruiti dei grandi autores italiani ed europei pronti per essere giocati o personalizzati.
-                        </p>
+                        <p class="text-slate-600 text-sm text-center mb-4">Usa i moduli pre-costruiti dei grandi autori italiani ed europei pronti per essere giocati o personalizzati.</p>
                     </div>
                     <span class="inline-flex items-center text-sm font-semibold text-bordeaux mt-2">
                         Accedi alla Libreria <i class="fa-solid fa-arrow-down ml-2 group-hover:translate-y-1 transition-transform"></i>
                     </span>
                 </button>
 
-                <!-- Strada B: AI Creator -->
                 <button onclick="scrollToSection('ai-generator-section')" class="group flex flex-col items-center justify-between p-6 bg-indigo-50/50 hover:bg-indigo-50 border-2 border-indigo-200 hover:border-indigo-500 rounded-xl text-left transition-all duration-300 shadow-sm hover:shadow-md">
                     <div class="text-center w-full">
                         <div class="w-16 h-16 bg-indigo-600 text-white rounded-full flex items-center justify-center text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform ai-pulse">
                             <i class="fa-solid fa-brain"></i>
                         </div>
                         <h3 class="serif-title text-xl font-bold text-indigo-900 mb-2 text-center">The Why + AI</h3>
-                        <p class="text-slate-600 text-sm text-center mb-4">
-                            Crea all'istante una nuova "Vita" personalizzata per qualsiasi autore o personaggio storico usando l'Intelligenza Artificiale.
-                        </p>
+                        <p class="text-slate-600 text-sm text-center mb-4">Crea all'istante una nuova "Vita" personalizzata per qualsiasi autore o personaggio storico usando l'Intelligenza Artificiale.</p>
                     </div>
                     <span class="inline-flex items-center text-sm font-semibold text-indigo-600 mt-2">
                         Genera un Nuovo Gioco <i class="fa-solid fa-magic-wand-sparkles ml-2 group-hover:rotate-12 transition-transform"></i>
@@ -117,35 +144,21 @@
         </div>
     </section>
 
-    <!-- SECTION 1: CATALOGO DEI MODELLI PRONTI -->
     <section id="catalogo-section" class="bg-slate-100 py-16 border-t border-slate-200">
         <div class="max-w-6xl mx-auto px-6">
             <div class="text-center mb-10">
                 <span class="text-xs font-bold uppercase tracking-widest text-bordeaux bg-red-100 px-3 py-1 rounded-full">Libreria Didattica</span>
                 <h2 class="serif-title text-3xl md:text-4xl font-bold text-slate-800 mt-3 mb-4">Modelli di Gioco Pronti all'Uso</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">
-                    Filtra per materia, scegli l'autore e apri la schermata interattiva da videoproiettare sulla LIM o modificare a tuo piacimento.
-                </p>
             </div>
 
-            <!-- Filtri Materia Orizzontali -->
             <div class="flex flex-wrap justify-center gap-3 mb-10">
-                <button onclick="filterSubjects('all')" class="filter-btn active px-5 py-2 rounded-full border border-bordeaux bg-bordeaux text-white hover:bg-bordeaux-light transition font-semibold text-sm shadow-sm" data-filter="all">
-                    Tutte le Materie
-                </button>
-                <button onclick="filterSubjects('letteratura')" class="filter-btn px-5 py-2 rounded-full border border-slate-300 bg-white text-slate-700 hover:border-bordeaux hover:text-bordeaux transition font-semibold text-sm" data-filter="letteratura">
-                    <i class="fa-solid fa-feather mr-1"></i> Letteratura Italiana
-                </button>
-                <button onclick="filterSubjects('storia')" class="filter-btn px-5 py-2 rounded-full border border-slate-300 bg-white text-slate-700 hover:border-bordeaux hover:text-bordeaux transition font-semibold text-sm" data-filter="storia">
-                    <i class="fa-solid fa-landmark mr-1"></i> Storia
-                </button>
+                <button onclick="filterSubjects('all')" class="filter-btn active px-5 py-2 rounded-full border border-bordeaux bg-bordeaux text-white hover:bg-bordeaux-light transition font-semibold text-sm shadow-sm" data-filter="all">Tutte le Materie</button>
+                <button onclick="filterSubjects('letteratura')" class="filter-btn px-5 py-2 rounded-full border border-slate-300 bg-white text-slate-700 hover:border-bordeaux hover:text-bordeaux transition font-semibold text-sm" data-filter="letteratura"><i class="fa-solid fa-feather mr-1"></i> Letteratura Italiana</button>
+                <button onclick="filterSubjects('storia')" class="filter-btn px-5 py-2 rounded-full border border-slate-300 bg-white text-slate-700 hover:border-bordeaux hover:text-bordeaux transition font-semibold text-sm" data-filter="storia"><i class="fa-solid fa-landmark mr-1"></i> Storia</button>
             </div>
 
-            <!-- Griglia dei Personaggi (Cards) -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="cards-container">
-                
-                <!-- Card 1: Leopardi (AGGIORNATO COL NUOVO GIOCO) -->
-                <div class="card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg" data-materia="letteratura">
+                <div class="card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 flex flex-col justify-between" data-materia="letteratura">
                     <div>
                         <div class="h-64 overflow-hidden relative">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Leopardi%2C_Giacomo_%281798-1837%29_-_ritr._A_Ferrazzi%2C_Recanati%2C_casa_Leopardi.jpg/440px-Leopardi%2C_Giacomo_%281798-1837%29_-_ritr._A_Ferrazzi%2C_Recanati%2C_casa_Leopardi.jpg" alt="Giacomo Leopardi" class="w-full h-full object-cover">
@@ -153,20 +166,17 @@
                         </div>
                         <div class="p-6">
                             <h3 class="serif-title text-xl font-bold text-slate-800 mb-2">Giacomo Leopardi</h3>
-                            <p class="text-slate-600 text-sm">
-                                "La gabbia di Recanati". Un viaggio immersivo ed empatico partendo dai vent'anni dell'autore fino alle sue opere immortali.
-                            </p>
+                            <p class="text-slate-600 text-sm">"La gabbia di Recanati". Un viaggio immersivo filosofico ed empatico dai vincoli della famiglia fino al pessimismo cosmico.</p>
                         </div>
                     </div>
                     <div class="p-6 pt-0">
                         <button onclick="startLeopardiGame()" class="w-full bg-bordeaux hover:bg-bordeaux-light text-white text-center py-2.5 rounded-lg font-bold text-sm transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-display"></i> Visualizza o Modifica (LIM)
+                            <i class="fa-solid fa-display"></i> Visualizza Gioco (LIM)
                         </button>
                     </div>
                 </div>
 
-                <!-- Card 2: Manzoni -->
-                <div class="card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg" data-materia="letteratura">
+                <div class="card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 flex flex-col justify-between" data-materia="letteratura">
                     <div>
                         <div class="h-64 overflow-hidden relative">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Ritratto_di_Alessandro_Manzoni_by_Francesco_Hayez.jpg/440px-Ritratto_di_Alessandro_Manzoni_by_Francesco_Hayez.jpg" alt="Alessandro Manzoni" class="w-full h-full object-cover">
@@ -174,42 +184,15 @@
                         </div>
                         <div class="p-6">
                             <h3 class="serif-title text-xl font-bold text-slate-800 mb-2">Alessandro Manzoni</h3>
-                            <p class="text-slate-600 text-sm">
-                                "La provvidenza alla prova". Gioca con i bivi morali nella Milano secentesca flagellata dalla peste.
-                            </p>
+                            <p class="text-slate-600 text-sm">"La provvidenza alla prova". Gioca con i bivi morali nella Milano secentesca.</p>
                         </div>
                     </div>
                     <div class="p-6 pt-0">
-                        <button onclick="alert('In arrivo! Sviluppato sulla struttura interattiva LIM.')" class="w-full bg-bordeaux hover:bg-bordeaux-light text-white text-center py-2.5 rounded-lg font-bold text-sm transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-display"></i> Visualizza o Modifica (LIM)
-                        </button>
+                        <button onclick="alert('In arrivo nelle prossime release didattiche!')" class="w-full bg-slate-300 text-slate-600 text-center py-2.5 rounded-lg font-bold text-sm cursor-not-allowed">Prossimamente</button>
                     </div>
                 </div>
 
-                <!-- Card 3: Foscolo -->
-                <div class="card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg" data-materia="letteratura">
-                    <div>
-                        <div class="h-64 overflow-hidden relative">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Andrea_Appiani_Ritratto_di_Ugo_Foscolo_Pinacoteca_di_Brera_1801-1802.jpg/440px-Andrea_Appiani_Ritratto_di_Ugo_Foscolo_Pinacoteca_di_Brera_1801-1802.jpg" alt="Ugo Foscolo" class="w-full h-full object-cover">
-                            <span class="absolute top-3 left-3 bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-1 rounded">Letteratura Italiana</span>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="serif-title text-xl font-bold text-slate-800 mb-2">Ugo Foscolo</h3>
-                            <p class="text-slate-600 text-sm">
-                                "L'arte dell'esilio". Un percorso volto ad esplorare l'animo passionale, politico e neoclassico dell'autore.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0">
-                        <button onclick="alert('In arrivo! Sviluppato sulla struttura interattiva LIM.')" class="w-full bg-bordeaux hover:bg-bordeaux-light text-white text-center py-2.5 rounded-lg font-bold text-sm transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-display"></i> Visualizza o Modifica (LIM)
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Altre card (Napoleone, Mazzini, Carlo Magno mantengono la struttura estetica) -->
-                <!-- Card 4: Napoleone -->
-                <div class="card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg" data-materia="storia">
+                <div class="card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 flex flex-col justify-between" data-materia="storia">
                     <div>
                         <div class="h-64 overflow-hidden relative">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg/440px-Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg" alt="Napoleone Bonaparte" class="w-full h-full object-cover">
@@ -217,249 +200,177 @@
                         </div>
                         <div class="p-6">
                             <h3 class="serif-title text-xl font-bold text-slate-800 mb-2">Napoleone Bonaparte</h3>
-                            <p class="text-slate-600 text-sm">
-                                "La conquista del codice civile". Simulatore strategico di gestione politica ed espansione delle riforme francesi.
-                            </p>
+                            <p class="text-slate-600 text-sm">"La conquista del codice civile". Simulatore strategico di gestione e riforme napoleoniche.</p>
                         </div>
                     </div>
                     <div class="p-6 pt-0">
-                        <button onclick="alert('In arrivo! Sviluppato sulla struttura interattiva LIM.')" class="w-full bg-bordeaux hover:bg-bordeaux-light text-white text-center py-2.5 rounded-lg font-bold text-sm transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-display"></i> Visualizza o Modifica (LIM)
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Card 5: Mazzini -->
-                <div class="card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg" data-materia="storia">
-                    <div>
-                        <div class="h-64 overflow-hidden relative">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Giuseppe_Mazzini.jpg/440px-Giuseppe_Mazzini.jpg" alt="Giuseppe Mazzini" class="w-full h-full object-cover">
-                            <span class="absolute top-3 left-3 bg-stone-200 text-stone-800 text-xs font-semibold px-2.5 py-1 rounded">Storia</span>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="serif-title text-xl font-bold text-slate-800 mb-2">Giuseppe Mazzini</h3>
-                            <p class="text-slate-600 text-sm">
-                                "La rete dei patrioti". Gioco basato sulle dinamiche di propaganda segreta della Giovine Italia.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0">
-                        <button onclick="alert('In arrivo! Sviluppato sulla struttura interattiva LIM.')" class="w-full bg-bordeaux hover:bg-bordeaux-light text-white text-center py-2.5 rounded-lg font-bold text-sm transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-display"></i> Visualizza o Modifica (LIM)
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Card 6: Carlo Magno -->
-                <div class="card bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg" data-materia="storia">
-                    <div>
-                        <div class="h-64 overflow-hidden relative">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Albrecht_D%C3%BCrer_-_Kaiser_Karl_der_Gro%C3%9Fe_-_Google_Art_Project.jpg/440px-Albrecht_D%C3%BCrer_-_Kaiser_Karl_der_Gro%C3%9Fe_-_Google_Art_Project.jpg" alt="Carlo Magno" class="w-full h-full object-cover">
-                            <span class="absolute top-3 left-3 bg-stone-200 text-stone-800 text-xs font-semibold px-2.5 py-1 rounded">Storia</span>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="serif-title text-xl font-bold text-slate-800 mb-2">Carlo Magno</h3>
-                            <p class="text-slate-600 text-sm">
-                                "Il giuramento di fedeltà". Metti in scena la gestione dei Missi Dominici e della rinascita feudale in Europa.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0">
-                        <button onclick="alert('In arrivo! Sviluppato sulla struttura interattiva LIM.')" class="w-full bg-bordeaux hover:bg-bordeaux-light text-white text-center py-2.5 rounded-lg font-bold text-sm transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-display"></i> Visualizza o Modifica (LIM)
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 2: CREATORE CON INTELLIGENZA ARTIFICIALE "THE WHY + AI" -->
-    <section id="ai-generator-section" class="py-20 bg-[#161a23] text-white relative">
-        <div class="absolute inset-0 opacity-5 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        <div class="max-w-6xl mx-auto px-6 relative z-10">
-            
-            <div class="text-center mb-12">
-                <span class="text-xs font-bold uppercase tracking-widest text-indigo-400 bg-indigo-900/40 border border-indigo-500/30 px-3 py-1 rounded-full">
-                    Strumento Rivoluzionario
-                </span>
-                <h2 class="serif-title text-3xl md:text-4xl font-bold mt-3 mb-4 text-indigo-100">THE WHY + AI: Personalizza il tuo Gioco</h2>
-                <p class="text-slate-400 max-w-2xl mx-auto">
-                    Non trovi l'autore che stai spiegando in questo momento? Digitalo nel nostro motore AI per generare una nuova avventura immersiva personalizzata e proiettabile subito.
-                </p>
-            </div>
-
-            <!-- Dashboard di Creazione AI -->
-            <div class="grid lg:grid-cols-12 gap-8 items-stretch">
-                <div class="lg:col-span-5 bg-slate-900/80 border border-slate-800 p-8 rounded-2xl flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-indigo-300">
-                            <i class="fa-solid fa-gears"></i> Parametri del Motore AI
-                        </h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Nome Autore o Personaggio Storico</label>
-                                <input type="text" id="ai-author-name" placeholder="Es. Dante Alighieri..." class="w-full bg-slate-800 text-white rounded-lg px-4 py-3 border border-slate-700 focus:outline-none focus:border-indigo-500 transition">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Materia Didattica</label>
-                                <select id="ai-subject" class="w-full bg-slate-800 text-white rounded-lg px-4 py-3 border border-slate-700 focus:outline-none focus:border-indigo-500 transition">
-                                    <option value="letteratura">Letteratura Italiana</option>
-                                    <option value="storia">Storia</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Contesto / Focus del Gioco</label>
-                                <textarea id="ai-context" rows="3" placeholder="Es. Viaggio nell'Inferno..." class="w-full bg-slate-800 text-white rounded-lg px-4 py-3 border border-slate-700 focus:outline-none focus:border-indigo-500 transition text-sm"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-8">
-                        <button onclick="simulateAIGeneration()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-indigo-500/20 transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> Genera con l'IA
-                        </button>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-7 bg-slate-900/50 border border-slate-800 p-8 rounded-2xl flex flex-col items-center justify-center relative min-h-[350px]">
-                    <div id="ai-loading-screen" class="hidden absolute inset-0 bg-slate-950/90 rounded-2xl flex flex-col items-center justify-center z-20">
-                        <div class="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                        <p class="text-indigo-400 font-bold tracking-wider animate-pulse">L'IA sta creando l'universo narrativo...</p>
-                    </div>
-
-                    <div id="ai-preview-card" class="w-full max-w-sm bg-white text-slate-800 rounded-xl overflow-hidden shadow-2xl border border-slate-700">
-                        <div class="h-48 bg-slate-800 relative">
-                            <img id="preview-image" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500" class="w-full h-full object-cover opacity-70">
-                            <span id="preview-badge" class="absolute top-3 left-3 bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-1 rounded">Materia</span>
-                        </div>
-                        <div class="p-6">
-                            <h3 id="preview-title" class="serif-title text-xl font-bold mb-2">Il Tuo Autore</h3>
-                            <p id="preview-desc" class="text-slate-600 text-sm mb-4">Compila i dati a sinistra e fai click su "Genera".</p>
-                            <button id="preview-btn" disabled class="w-full bg-slate-300 text-slate-500 text-center py-2 rounded-lg font-bold text-sm cursor-not-allowed">Generatore Pronto</button>
-                        </div>
+                        <button onclick="alert('In arrivo nelle prossime release didattiche!')" class="w-full bg-slate-300 text-slate-600 text-center py-2.5 rounded-lg font-bold text-sm cursor-not-allowed">Prossimamente</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-[#0f1115] text-slate-400 py-12 px-6 text-center text-sm mt-auto">
-        <p class="serif-title text-xl text-[#e5c158] font-bold mb-2">LE VITE DEGLI ALTRI</p>
-        <p>&copy; 2026 - Piattaforma Didattica di Gamification per Scuole.</p>
-    </footer>
+    <section id="ai-generator-section" class="py-20 bg-[#161a23] text-white">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="serif-title text-3xl font-bold text-indigo-100 mb-4">THE WHY + AI: Personalizza il tuo Gioco</h2>
+            <p class="text-slate-400 mb-8 max-w-xl mx-auto">Genera all'istante avventure didattiche ed evoluzioni narrative strutturate per qualsiasi altro personaggio storico.</p>
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl max-w-md mx-auto text-left">
+                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2">Nome Personaggio</label>
+                <input type="text" placeholder="Es. Dante, Galileo..." class="w-full bg-slate-800 text-white rounded-lg px-4 py-2 mb-4 border border-slate-700 focus:outline-none">
+                <button onclick="alert('Esegui prima il Login Docente per salvare le tue generazioni AI')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-lg transition">Genera Modulo</button>
+            </div>
+        </div>
+    </section>
 
-
-    <!-- ========================================== -->
-    <!-- NUOVO MODAL OVERLAY: GIOCO DI LEOPARDI LIM -->
-    <!-- ========================================== -->
-    <div id="leopardi-modal" class="hidden fixed inset-0 bg-slate-950/95 z-50 overflow-y-auto flex items-center justify-center p-4">
-        <div class="bg-stone-900 w-full max-w-6xl rounded-2xl shadow-2xl overflow-hidden border border-amber-900/30 flex flex-col h-[90vh]">
-            
-            <!-- Topbar del Proiettore LIM -->
-            <div class="bg-stone-950 px-6 py-4 border-b border-stone-800 flex justify-between items-center text-white">
-                <div class="flex items-center gap-3">
-                    <span class="bg-red-700 text-xs font-bold px-2.5 py-1 rounded tracking-widest uppercase animate-pulse">PROIEZIONE LIM ATTIVA</span>
-                    <h2 class="serif-title text-lg font-bold text-[#e5c158]">Giacomo Leopardi: La Gabbia di Recanati</h2>
+    <div id="login-modal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-xl p-6 shadow-2xl border border-slate-200">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="serif-title font-bold text-lg text-bordeaux"><i class="fa-solid fa-lock mr-2"></i> Accesso Docenti</h3>
+                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">E-mail Istituzionale</label>
+                    <input type="email" id="login-email" required value="mario.rossi@scuola.it" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-bordeaux">
                 </div>
-                <button onclick="closeLeopardiGame()" class="text-slate-400 hover:text-white text-sm bg-stone-800 px-3 py-1 rounded-lg">
-                    <i class="fa-solid fa-xmark mr-1"></i> Chiudi Sessione
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Password</label>
+                    <input type="password" id="login-pass" required value="••••••••" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-bordeaux">
+                </div>
+                <button type="submit" class="w-full bg-bordeaux hover:bg-bordeaux-light text-white font-bold py-2.5 rounded transition text-sm shadow-md">
+                    Accedi alla Piattaforma
                 </button>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="leopardi-modal" class="hidden fixed inset-0 bg-stone-950/95 z-50 overflow-y-auto flex items-center justify-center p-4">
+        <div class="bg-stone-900 w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden border border-amber-900/20 flex flex-col h-[90vh]">
+            
+            <div class="bg-stone-950 px-6 py-4 border-b border-stone-800 flex justify-between items-center text-white shadow-sm">
+                <div class="flex items-center gap-3">
+                    <span class="bg-red-700 text-[10px] font-bold px-2.5 py-1 rounded tracking-widest uppercase animate-pulse">PROIEZIONE LIM</span>
+                    <h2 class="serif-title text-base font-bold text-[#e5c158]">Giacomo Leopardi: La Gabbia di Recanati</h2>
+                </div>
+                <button onclick="closeLeopardiGame()" class="text-slate-400 hover:text-white text-xs bg-stone-800 px-3 py-1.5 rounded-lg transition"><i class="fa-solid fa-xmark mr-1"></i> Esci</button>
             </div>
 
-            <!-- Corpo Principale del Gioco -->
-            <div class="flex-grow flex flex-col relative p-6 md:p-10 justify-center items-center">
+            <div class="flex-grow flex flex-col p-6 md:p-8 justify-center items-center overflow-y-auto">
                 
-                <!-- SCHERMATA 1: COMPARSA DELLE FRASI UNA ALLA VOLTA -->
-                <div id="leo-step-frasi" class="w-full max-w-3xl text-center space-y-8">
-                    <div id="frasi-container" class="min-h-[180px] flex flex-col justify-center items-center space-y-4">
-                        <p id="frase-1" class="text-2xl md:text-3xl font-light text-slate-400 transition-all duration-700 opacity-0 transform translate-y-2">Sei un ragazzo di vent'anni.</p>
-                        <p id="frase-2" class="text-2xl md:text-3xl font-light text-slate-400 transition-all duration-700 opacity-0 transform translate-y-2">Passi tutte le tue giornate a studiare in biblioteca.</p>
-                        <p id="frase-3" class="text-2xl md:text-3xl font-light text-slate-400 transition-all duration-700 opacity-0 transform translate-y-2">Ma tu vorresti uscire ed esplorare il mondo...</p>
-                        <p id="frase-4" class="text-2xl md:text-3xl font-semibold text-amber-400 transition-all duration-700 opacity-0 transform translate-y-2">E invece, tutti prendono delle decisioni per te.</p>
+                <div id="leo-step-frasi" class="w-full max-w-2xl text-center space-y-6">
+                    <div class="min-h-[160px] flex flex-col justify-center items-center space-y-3">
+                        <p id="frase-1" class="text-xl md:text-2xl font-light text-slate-400 transition-all duration-500 opacity-0 transform translate-y-2">Sei un ragazzo di vent'anni.</p>
+                        <p id="frase-2" class="text-xl md:text-2xl font-light text-slate-400 transition-all duration-500 opacity-0 transform translate-y-2">Passi tutte le tue giornate a studiare in biblioteca.</p>
+                        <p id="frase-3" class="text-xl md:text-2xl font-light text-slate-400 transition-all duration-500 opacity-0 transform translate-y-2">Ma vorresti uscire ed esplorare il mondo esterno...</p>
+                        <p id="frase-4" class="text-xl md:text-2xl font-semibold text-amber-400 transition-all duration-500 opacity-0 transform translate-y-2">E invece, tutti prendono le decisioni per te.</p>
                     </div>
-                    <div class="pt-6">
-                        <button id="btn-avanza-frase" onclick="nextFrase()" class="bg-amber-500 hover:bg-gold text-stone-950 font-bold px-8 py-3 rounded-full text-lg shadow-lg shadow-amber-500/10 transition-all transform hover:scale-105">
-                            Avanti <i class="fa-solid fa-chevron-right ml-2"></i>
-                        </button>
+                    <button onclick="nextFrase()" class="bg-amber-500 hover:bg-gold text-stone-950 font-bold px-6 py-2.5 rounded-full text-sm transition shadow-lg">Avanti <i class="fa-solid fa-chevron-right ml-1"></i></button>
+                </div>
+
+                <div id="leo-step-timer" class="hidden w-full max-w-2xl text-center space-y-6">
+                    <h3 class="serif-title text-3xl font-bold text-amber-400">COSA FARESTI?</h3>
+                    <p class="text-base text-slate-200 font-light">Scrivete adesso su un <strong>Post-it</strong> la vostra reazione immediata o la vostra strategia di fuga.</p>
+                    <div class="py-2">
+                        <div class="inline-block bg-stone-950 border border-stone-800 rounded-xl px-8 py-3">
+                            <span id="countdown-clock" class="text-4xl font-mono font-bold text-red-500">02:00</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-center gap-3">
+                        <button id="btn-avvia-timer" onclick="startTimer()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded transition"><i class="fa-solid fa-play mr-1"></i> Avvia 2 Minuti</button>
+                        <button onclick="goToCameraStep()" class="text-slate-400 hover:text-white text-xs underline px-3">Vai alla Camera <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </div>
 
-                <!-- SCHERMATA 2: COSA FARESTI? + ATTIVITÀ POST-IT CON TIMER -->
-                <div id="leo-step-timer" class="hidden w-full max-w-3xl text-center space-y-6">
-                    <h3 class="serif-title text-4xl font-bold text-amber-400 animate-pulse">COSA FARESTI?</h3>
-                    
-                    <div class="bg-stone-800/80 border border-amber-900/30 p-6 rounded-xl max-w-2xl mx-auto shadow-inner text-left space-y-4">
-                        <p class="text-xl text-slate-200 text-center font-light">
-                            <i class="fa-solid fa-pen-to-square text-amber-500 mr-2"></i> <strong>Attività per la classe:</strong> Scrivete adesso su un <strong>Post-it</strong> la vostra reazione immediata o la vostra strategia di fuga.
+                <div id="leo-step-camera" class="hidden w-full max-w-3xl flex flex-col items-center space-y-6">
+                    <div class="w-full text-center">
+                        <span class="text-xs bg-amber-900/40 text-amber-400 px-3 py-1 rounded border border-amber-900/30 font-semibold uppercase tracking-wider">PREMESSA: La Natura è ancora vista come Buona e provvidenziale</span>
+                        <h3 class="text-slate-200 text-lg font-light mt-2">State esaminando il vostro microcosmo. Ma scappare è davvero così semplice?</h3>
+                    </div>
+
+                    <div class="w-full max-w-xl bg-stone-950 rounded-xl overflow-hidden border border-stone-800 shadow-xl relative">
+                        <img src="cameraleo.png" alt="Camera di Leopardi" class="w-full h-auto object-cover min-h-[220px] opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 right-3 bg-stone-900/80 text-slate-400 text-[10px] font-mono px-2 py-1 rounded border border-stone-700">Sorgente: la-vita-degli-altri/cameraleo.png</span>
+                    </div>
+
+                    <div class="w-full bg-stone-950/60 border border-stone-800 rounded-xl p-5 space-y-3">
+                        <h4 class="text-amber-400 font-bold text-xs uppercase tracking-wider"><i class="fa-solid fa-scale-unbalanced mr-1"></i> Vincoli e Ragionamenti da considerare con gli alunni:</h4>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4 leading-relaxed">
+                            <li><strong>I Mezzi Economici:</strong> Siete mantenuti interamente dal patrimonio e dalle rigide regole della famiglia Monaldo. Senza il loro denaro, come sopravvivereste fuori?</li>
+                            <li><strong>Il Contesto Esterno:</strong> Fuori imperversano moti, restaurazioni e instabilità geopolitiche nello Stato Pontificio. Le strade non sono sicure per un giovane isolato.</li>
+                        </ul>
+                    </div>
+
+                    <button onclick="goToImprevistiStep()" class="bg-amber-500 hover:bg-gold text-stone-950 font-bold px-6 py-2.5 rounded-lg text-xs transition uppercase tracking-wider">Verifica: È ancora fattibile scappare? <i class="fa-solid fa-circle-question ml-1"></i></button>
+                </div>
+
+                <div id="leo-step-imprevisti" class="hidden w-full max-w-4xl flex flex-col items-center space-y-6">
+                    <div class="text-center">
+                        <h3 class="serif-title text-2xl font-bold text-red-400">È ancora fattibile scappare?</h3>
+                        <p class="text-sm text-slate-400 mt-1">La situazione si aggrava drammaticamente. Pesca le carte imprevisto sulla LIM:</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 w-full max-w-2xl">
+                        <div class="bg-gradient-to-b from-stone-950 to-stone-900 border border-red-900/40 rounded-xl p-5 text-center flex flex-col justify-between shadow-lg">
+                            <div>
+                                <div class="text-red-500 text-xl mb-2"><i class="fa-solid fa-heart-crack"></i></div>
+                                <h4 class="text-slate-200 text-sm font-bold uppercase tracking-wider mb-2">Imprevisto Emotivo</h4>
+                                <p class="text-xs text-slate-400 italic">"Ti innamori perdutamente di una donna (Fanny Targioni Tozzetti), ma scopri che il tuo sentimento non è ricambiato in alcun modo. L'illusione d'amore crolla."</p>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-b from-stone-950 to-stone-900 border border-red-900/40 rounded-xl p-5 text-center flex flex-col justify-between shadow-lg">
+                            <div>
+                                <div class="text-red-500 text-xl mb-2"><i class="fa-solid fa-fringe"></i></div>
+                                <h4 class="text-slate-200 text-sm font-bold uppercase tracking-wider mb-2">Imprevisto Fisico</h4>
+                                <p class="text-xs text-slate-400 italic">"La tua salute cede di colpo. Malattie polmonari, ossee e disturbi alla vista ti bloccano fisicamente. Il corpo diventa la tua prigione principale."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full max-w-2xl bg-amber-950/20 border border-amber-950 rounded-xl p-4 text-center">
+                        <p class="text-amber-400 text-xs font-semibold uppercase tracking-wider"><i class="fa-solid fa-mask mr-1"></i> Il velo si squarcia</p>
+                        <p class="text-slate-300 text-xs mt-1 leading-relaxed">
+                            La natura non è una madre benevola che vi proteggeva dentro Recanati. Quella era solo una finzione. La Natura in realtà è <strong>malvagia, indifferente e matrigna</strong>: mette al mondo le sue creature solo per vederle soffrire.
                         </p>
-                        <div class="text-xs text-slate-400 border-t border-stone-700 pt-3 flex items-start gap-2">
-                            <i class="fa-solid fa-circle-info text-sky-400 mt-0.5"></i>
-                            <span><strong>Nota per il Docente:</strong> Allo scadere del tempo, raccogli tutti i post-it della classe sulla cattedra o sulla lavagna per analizzarli insieme prima di esplorare l'ambiente.</span>
-                        </div>
                     </div>
 
-                    <!-- Timer Digitale Clonato -->
-                    <div class="py-6">
-                        <div class="inline-flex flex-col items-center bg-stone-950 border-2 border-stone-800 rounded-2xl px-10 py-4 shadow-2xl">
-                            <span class="text-slate-500 text-xs font-bold tracking-widest uppercase mb-1">Tempo Rimasto</span>
-                            <span id="countdown-clock" class="text-5xl md:text-6xl font-mono font-bold text-red-500 tracking-wider">02:00</span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <button id="btn-avvia-timer" onclick="startTimer()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-2.5 rounded-lg text-sm mr-3 transition">
-                            <i class="fa-solid fa-play mr-1"></i> Avvia Timer
-                        </button>
-                        <button onclick="skipToRoom()" class="text-slate-400 hover:text-white text-sm underline px-4 py-2">
-                            Salta alla Stanza <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </button>
-                    </div>
+                    <button onclick="goToMondoEsternoStep()" class="bg-red-700 hover:bg-red-600 text-white font-bold px-5 py-2.5 rounded-lg text-xs transition uppercase tracking-wider">Esplora il Mondo Esterno <i class="fa-solid fa-earth-europe ml-1"></i></button>
                 </div>
 
-                <!-- SCHERMATA 3: STANZA INTERATTIVA DI LEOPARDI -->
-                <div id="leo-step-stanza" class="hidden w-full h-full flex flex-col justify-between items-center">
-                    <div class="text-center mb-4">
-                        <p class="text-amber-400 font-semibold tracking-wide text-sm"><i class="fa-solid fa-magnifying-glass mr-1"></i> Fase di Discussione dei Post-it</p>
-                        <h3 class="text-slate-200 text-xl font-light">Esplorate la camera di Giacomo a Recanati. Cliccate sugli elementi chiave discussi con i ragazzi.</h3>
+                <div id="leo-step-mondo" class="hidden w-full max-w-4xl flex flex-col items-center space-y-6">
+                    <div class="text-center space-y-1">
+                        <span class="text-xs bg-red-900/50 text-red-400 px-3 py-1 rounded border border-red-900/30 uppercase font-bold tracking-widest">Fase Conclusiva Didattica</span>
+                        <h3 class="serif-title text-2xl font-bold text-slate-200">Riflessione d'Aula Globale</h3>
                     </div>
 
-                    <!-- Mappa Grafica della Stanza in 2D Scatolare -->
-                    <div class="w-full max-w-4xl h-[45vh] bg-stone-950/80 rounded-2xl relative border-2 border-stone-800 p-4 shadow-2xl stanza-container overflow-hidden flex items-center justify-center">
-                        
-                        <!-- Elemento 1: La Finestra -->
-                        <div onclick="selectRoomObject('finestra')" class="oggetto-interattivo absolute left-[10%] top-[20%] w-[18%] h-[55%] rounded-md flex flex-col items-center justify-center text-center p-2 bg-sky-950/20 text-sky-300">
-                            <i class="fa-solid fa-cloud-sun text-3xl mb-2"></i>
-                            <span class="text-xs font-bold uppercase tracking-wider">La Finestra</span>
+                    <div class="w-full bg-stone-950/80 border border-stone-800 rounded-xl p-6 text-center space-y-6">
+                        <div class="bg-red-950/30 border border-red-900/50 p-4 rounded-xl max-w-xl mx-auto">
+                            <h4 class="text-red-400 font-mono font-bold text-base md:text-lg">DOMANDA STIMOLO:</h4>
+                            <p class="text-slate-100 text-lg md:text-xl font-serif italic mt-1">"Perché le cose brutte succedono anche a chi non lo merita?"</p>
                         </div>
 
-                        <!-- Elemento 2: La Grande Biblioteca -->
-                        <div onclick="selectRoomObject('biblioteca')" class="oggetto-interattivo absolute left-[35%] top-[10%] w-[30%] h-[75%] rounded-md flex flex-col items-center justify-center text-center p-3 bg-amber-950/20 text-amber-300">
-                            <i class="fa-solid fa-book-bookmark text-4xl mb-2"></i>
-                            <span class="text-xs font-bold uppercase tracking-wider">Grande Biblioteca</span>
-                        </div>
+                        <p class="text-xs text-slate-400">Gli studenti rispondono ora sui post-it focalizzandosi sui tre pilastri dell'esperienza:</p>
 
-                        <!-- Elemento 3: Scrivania e Comodino col Diario -->
-                        <div onclick="selectRoomObject('scrivania')" class="oggetto-interattivo absolute right-[10%] top-[45%] w-[22%] h-[40%] rounded-md flex flex-col items-center justify-center text-center p-2 bg-orange-950/20 text-orange-300">
-                            <i class="fa-solid fa-book-open text-2xl mb-1"></i>
-                            <span class="text-xs font-bold uppercase tracking-wider">Scrivania & Diario</span>
-                        </div>
-
-                        <!-- Elemento 4: Letto -->
-                        <div class="absolute left-[10%] bottom-[4%] w-[25%] h-[15%] border border-stone-800 bg-stone-800/40 rounded text-stone-500 flex items-center justify-center text-xs">
-                            Letto di Giacomo
-                        </div>
-
-                        <!-- Elemento 5: La Porta di Fuga -->
-                        <div onclick="selectRoomObject('porta')" class="oggetto-interattivo absolute right-[2%] top-[25%] w-[6%] h-[60%] rounded-l bg-red-950/20 text-red-400 flex flex-col items-center justify-center border-r-0">
-                            <i class="fa-solid fa-door-open text-xl"></i>
+                        <div class="grid md:grid-cols-3 gap-4 text-slate-900 max-w-3xl mx-auto">
+                            <div class="post-it p-4 rounded min-h-[120px] flex flex-col justify-between text-left">
+                                <h5 class="font-bold text-xs uppercase tracking-wider text-amber-900"><i class="fa-solid fa-location-dot"></i> DOVE?</h5>
+                                <p class="text-xs text-amber-950 font-light mt-1">Dove trovare un porto sicuro se l'intero pianeta e l'esistenza stessa sono governati dall'indifferenza della natura?</p>
+                            </div>
+                            <div class="post-it p-4 rounded min-h-[120px] flex flex-col justify-between text-left">
+                                <h5 class="font-bold text-xs uppercase tracking-wider text-amber-900"><i class="fa-solid fa-wand-magic"></i> COME?</h5>
+                                <p class="text-xs text-amber-950 font-light mt-1">Come reagire al dolore? Con la fuga o con la solidarietà fraterna della "social catena" descritta nella Ginestra?</p>
+                            </div>
+                            <div class="post-it p-4 rounded min-h-[120px] flex flex-col justify-between text-left">
+                                <h5 class="font-bold text-xs uppercase tracking-wider text-amber-900"><i class="fa-solid fa-circle-question"></i> PERCHÉ?</h5>
+                                <p class="text-xs text-amber-950 font-light mt-1">Perché la sofferenza accomuna tutti gli esseri viventi (uomini, animali e piante)? Esiste un senso biologico?</p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Box Dinamico di Output Didattico dei Risvolti -->
-                    <div id="stanza-output-box" class="w-full max-w-4xl mt-4 bg-stone-900 border border-stone-800 rounded-xl p-5 min-h-[90px] flex items-center justify-center text-center">
-                        <p class="text-slate-400 italic text-sm">Seleziona un elemento interattivo della stanza proiettata sulla LIM per sbloccare l'approfondimento della storia...</p>
+                    <div class="flex gap-4">
+                        <button onclick="closeLeopardiGame()" class="bg-stone-800 hover:bg-stone-700 text-slate-300 font-bold px-4 py-2 rounded text-xs transition">Concludi Gioco e Salva Sessione</button>
                     </div>
                 </div>
 
@@ -468,99 +379,74 @@
     </div>
 
 
-    <!-- JAVASCRIPT PER INTERATTIVITÀ COMPLETA -->
     <script>
-        // Gestione scorrimento delle strade iniziali
+        // Gestione Menu e Filtri
         function scrollToSection(sectionId) {
             document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Filtro Materie Catalogo
         function filterSubjects(subject) {
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active', 'bg-bordeaux', 'text-white');
                 btn.classList.add('bg-white', 'text-slate-700');
             });
             const clickedBtn = document.querySelector(`[data-filter="${subject}"]`);
-            if (clickedBtn) {
-                clickedBtn.classList.add('active', 'bg-bordeaux', 'text-white');
-            }
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                const materia = card.getAttribute('data-materia');
-                if (subject === 'all' || materia === subject) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
+            if (clickedBtn) clickedBtn.classList.add('active', 'bg-bordeaux', 'text-white');
+            
+            document.querySelectorAll('.card').forEach(card => {
+                const mat = card.getAttribute('data-materia');
+                card.style.display = (subject === 'all' || mat === subject) ? 'flex' : 'none';
             });
         }
 
-        // Simulazione AI Creator
-        function simulateAIGeneration() {
-            const author = document.getElementById('ai-author-name').value.trim();
-            const subject = document.getElementById('ai-subject').value;
-            const context = document.getElementById('ai-context').value.trim();
-
-            if (!author) { alert('Inserisci il nome del personaggio!'); return; }
-
-            const loadingScreen = document.getElementById('ai-loading-screen');
-            loadingScreen.classList.remove('hidden');
-
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                let imageUrl = 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500';
-                if (subject === 'storia') imageUrl = 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500';
-
-                document.getElementById('preview-image').src = imageUrl;
-                document.getElementById('preview-badge').innerText = subject.toUpperCase();
-                document.getElementById('preview-title').innerText = author;
-                document.getElementById('preview-desc').innerText = `Gioco interattivo basato su: "${context || 'Studio immersivo'}"`;
-                
-                const prevBtn = document.getElementById('preview-btn');
-                prevBtn.classList.remove('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
-                prevBtn.classList.add('bg-indigo-600', 'text-white');
-                prevBtn.removeAttribute('disabled');
-                prevBtn.innerHTML = '<i class="fa-solid fa-circle-check mr-2"></i> Attiva e Aggiungi in Libreria';
-                
-                prevBtn.onclick = () => {
-                    alert('Autore aggiunto con successo alla galleria!');
-                    scrollToSection('catalogo-section');
-                };
-            }, 1500);
+        // --- SISTEMA AUTENTICAZIONE DOCENTE ---
+        function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
+        function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
+        
+        function handleLoginSubmit(event) {
+            event.preventDefault();
+            closeLoginModal();
+            // Mostra interfaccia loggata
+            document.getElementById('auth-logged-out').classList.add('hidden');
+            document.getElementById('auth-logged-in').classList.remove('hidden');
+            alert('Accesso eseguito! Il tuo profilo docente è ora attivo.');
         }
 
-        // ==========================================
-        // STRUTTURA LOGICA MOTORE DI GIOCO LEOPARDI
-        // ==========================================
+        function logoutTeacher() {
+            document.getElementById('auth-logged-in').classList.add('hidden');
+            document.getElementById('auth-logged-out').classList.remove('hidden');
+            document.getElementById('profile-dashboard').classList.add('hidden');
+        }
+
+        function toggleProfileDashboard() {
+            const dash = document.getElementById('profile-dashboard');
+            dash.classList.toggle('hidden');
+        }
+
+        // --- MOTORE NARRATIVO LEOPARDI INTERATTIVO LIM ---
         let currentFraseIndex = 0;
         let timerInterval = null;
 
         function startLeopardiGame() {
-            // Reset stati di visualizzazione interni del modal
             currentFraseIndex = 0;
             clearInterval(timerInterval);
             document.getElementById('countdown-clock').innerText = "02:00";
-            document.getElementById('countdown-clock').classList.remove('text-amber-400');
-            document.getElementById('countdown-clock').classList.add('text-red-500');
             document.getElementById('btn-avvia-timer').style.display = 'inline-block';
-            document.getElementById('stanza-output-box').innerHTML = `<p class="text-slate-400 italic text-sm">Seleziona un elemento interattivo della stanza proiettata sulla LIM per sbloccare l'approfondimento della storia...</p>`;
 
-            // Nascondi passi successivi, mostra il primo passo
+            // Reset visibilità degli step interni
             document.getElementById('frase-1').classList.add('opacity-0', 'translate-y-2');
             document.getElementById('frase-2').classList.add('opacity-0', 'translate-y-2');
             document.getElementById('frase-3').classList.add('opacity-0', 'translate-y-2');
             document.getElementById('frase-4').classList.add('opacity-0', 'translate-y-2');
-            
+
             document.getElementById('leo-step-frasi').classList.remove('hidden');
             document.getElementById('leo-step-timer').classList.add('hidden');
-            document.getElementById('leo-step-stanza').classList.add('hidden');
-            
-            // Apri Modal
+            document.getElementById('leo-step-camera').classList.add('hidden');
+            document.getElementById('leo-step-imprevisti').classList.add('hidden');
+            document.getElementById('leo-step-mondo').classList.add('hidden');
+
             document.getElementById('leopardi-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
-
-            // Mostra subito la prima frase automatica
             nextFrase();
         }
 
@@ -570,102 +456,47 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Avanzamento Frasi della Prima Schermata
         function nextFrase() {
             currentFraseIndex++;
             if (currentFraseIndex <= 4) {
-                const targetFrase = document.getElementById(`frase-${currentFraseIndex}`);
-                targetFrase.classList.remove('opacity-0', 'translate-y-2');
-                targetFrase.classList.add('opacity-100', 'translate-y-0');
+                const f = document.getElementById(`frase-${currentFraseIndex}`);
+                f.classList.remove('opacity-0', 'translate-y-2');
+                f.classList.add('opacity-100', 'translate-y-0');
             } else {
-                // Passa allo step successivo del timer dei post-it
                 document.getElementById('leo-step-frasi').classList.add('hidden');
                 document.getElementById('leo-step-timer').classList.remove('hidden');
             }
         }
 
-        // Funzione Gestione Timer Digitale dei 2 Minuti
         function startTimer() {
             document.getElementById('btn-avvia-timer').style.display = 'none';
-            let totalSeconds = 120; // 2 minuti esatti
-
+            let totalSecs = 120;
             timerInterval = setInterval(() => {
-                totalSeconds--;
-                
-                let minutes = Math.floor(totalSeconds / 60);
-                let seconds = totalSeconds % 60;
-                
-                // Formatta stringa temporale
-                minutes = minutes < 10 ? '0' + minutes : minutes;
-                seconds = seconds < 10 ? '0' + seconds : seconds;
-                
-                document.getElementById('countdown-clock').innerText = `${minutes}:${seconds}`;
-
-                if (totalSeconds <= 0) {
+                totalSecs--;
+                let m = Math.floor(totalSecs / 60);
+                let s = totalSecs % 60;
+                document.getElementById('countdown-clock').innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+                if (totalSecs <= 0) {
                     clearInterval(timerInterval);
-                    document.getElementById('countdown-clock').innerText = "TEMPO SCADUTO";
-                    document.getElementById('countdown-clock').classList.remove('text-red-500');
-                    document.getElementById('countdown-clock').classList.add('text-amber-400');
-                    
-                    // Attendi un istante per dare enfasi d'aula e passa alla stanza interattiva
-                    setTimeout(() => {
-                        skipToRoom();
-                    }, 1500);
+                    goToCameraStep();
                 }
             }, 1000);
         }
 
-        // Sblocco immediato della stanza interattiva
-        function skipToRoom() {
+        function goToCameraStep() {
             clearInterval(timerInterval);
             document.getElementById('leo-step-timer').classList.add('hidden');
-            document.getElementById('leo-step-stanza').classList.remove('hidden');
+            document.getElementById('leo-step-camera').classList.remove('hidden');
         }
 
-        // LOGICA DI RISPOSTA DEGLI ELEMENTI NELLA STANZA DI LEOPARDI (LIM)
-        function selectRoomObject(objectKey) {
-            const outputBox = document.getElementById('stanza-output-box');
-            
-            if (objectKey === 'finestra') {
-                outputBox.innerHTML = `
-                    <div class="text-left w-full space-y-2">
-                        <h4 class="text-sky-400 font-bold text-base"><i class="fa-solid fa-mountain-sun"></i> La Finestra e l'Ermo Colle</h4>
-                        <p class="text-slate-200 text-sm leading-relaxed">
-                            Molti ragazzi avranno proposto di scappare dalla finestra. Proprio guardando oltre le mura di questa stanza, verso il Monte Tabor, Giacomo immagina l'infinito. La siepe che gli esclude lo sguardo diventa il motore dell'immaginazione poetica: nasce l'<strong>Infinito</strong> ("E questa siepe, che da tanta parte / dell'ultimo orizzonte il guardo esclude...").
-                        </p>
-                    </div>
-                `;
-            } else if (objectKey === 'biblioteca') {
-                outputBox.innerHTML = `
-                    <div class="text-left w-full space-y-2">
-                        <h4 class="text-amber-400 font-bold text-base"><i class="fa-solid fa-book"></i> Lo Studio Matto e Disperatissimo</h4>
-                        <p class="text-slate-200 text-sm leading-relaxed">
-                            C'è chi ha pensato di pianificare una fuga intellettuale attraverso la cultura. In questa monumentale libreria del padre Monaldo, Giacomo passa 7 anni di studio distruttivo. Legge i testi cardine dell'<strong>Illuminismo francese</strong>, la prosa del <strong>Tasso</strong> e i classici antichi, compiendo il passaggio "dall'erudizione al bello".
-                        </p>
-                    </div>
-                `;
-            } else if (objectKey === 'scrivania') {
-                outputBox.innerHTML = `
-                    <div class="text-left w-full space-y-2">
-                        <h4 class="text-orange-400 font-bold text-base"><i class="fa-solid fa-feather-pointed"></i> La Scrivania dello Zibaldone</h4>
-                        <p class="text-slate-200 text-sm leading-relaxed">
-                            Su questo tavolo prende forma il diario intimo dei suoi pensieri: lo <strong>Zibaldone</strong>. Qui annota la sua frustrazione per la mancanza di stimoli a Recanati e sviluppa il nucleo del suo sistema filosofico, analizzando il rapporto uomo-natura e l'illusione della felicità.
-                        </p>
-                    </div>
-                `;
-            } else if (objectKey === 'porta') {
-                outputBox.innerHTML = `
-                    <div class="text-left w-full space-y-2">
-                        <h4 class="text-red-400 font-bold text-base"><i class="fa-solid fa-door-open"></i> Il Tentativo di Fuga Reale (1819)</h4>
-                        <p class="text-slate-200 text-sm leading-relaxed">
-                            Uscire dalla porta. Nel 1819 Giacomo organizza una fuga vera: si procura un passaporto falso per lo Stato Pontificio. Il piano viene scoperto dal padre e il fallimento lo getta in una disperazione totale. È proprio in questo momento di reclusione forzata che fuori da quel mondo si apre la fase del suo profondo <strong>Pessimismo Storico</strong>.
-                        </p>
-                        <button onclick="alert('Fase Successiva: Caricamento mappa geopolitica dello Stato Pontificio in corso...')" class="mt-2 text-xs bg-red-700 hover:bg-red-600 text-white font-bold py-1.5 px-3 rounded transition">
-                            Apri Mappa di Fuga Esterna <i class="fa-solid fa-map-location-dot ml-1"></i>
-                        </button>
-                    </div>
-                `;
-            }
+        function goToImprevistiStep() {
+            document.getElementById('leo-step-camera').classList.add('hidden');
+            document.getElementById('leo-step-imprevisti').classList.remove('hidden');
+        }
+
+        function goToMondoEsternoStep() {
+            document.getElementById('leo-step-imprevisti').classList.add('hidden');
+            document.getElementById('leo-step-mondo').classList.remove('hidden');
         }
     </script>
 </body>
